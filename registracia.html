@@ -28,7 +28,17 @@
         <input type="text" name="lokalita" required placeholder="Napr. Košice, okolie">
         
         <label>Kategória (Remeslo/Služba):</label>
-        <input type="text" name="kategoria" required placeholder="Napr. Stolárstvo, Včelár">
+        <label>Kategória (Vyberte jednu):</label>
+        <select name="kategoria" required>
+            <option value="" disabled selected>-- Vyberte kategóriu --</option>
+            <option value="Obživa">Obživa</option>
+            <option value="Remeslá a materiál">Remeslá a materiál</option>
+            <option value="Ubytovanie a prenájom">Ubytovanie a prenájom</option>
+            <option value="Odborné služby">Odborné služby</option>
+            <option value="Vzdelávanie">Vzdelávanie</option>
+            <option value="Záhrada a gazdovstvo">Záhrada a gazdovstvo</option>
+            <option value="Iné">Iné</option>
+        </select>
 
         <label>Krátky popis (Čo ponúkate):</label>
         <textarea name="popis" rows="3" placeholder="Pár slov o vašej práci..."></textarea>

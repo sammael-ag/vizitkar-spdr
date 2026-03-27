@@ -20,23 +20,60 @@
 </head>
 <body>
 <div class="container">
-    <header>
+<header>
         <h1>🌿 Vizitkár SPDR</h1>
-        <p style="font-size: 0.9em; color: #666;">Komunitná sieť Slovenského podielového družstva ROD</p>
+        <p style="font-size: 0.9em; color: #666; margin-bottom: 20px;">Komunitná sieť Slovenského podielového družstva ROD</p>
         
-        <a href="registracia.html" style="display:inline-block; margin-top:15px; padding:8px 20px; background:white; color:var(--primary); border:2px solid var(--primary); border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">➕ Pridať moju vizitku</a>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <a href="registracia.html" style="padding:10px 20px; background:var(--primary); color:white; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">➕ Pridať moju vizitku</a>
+            <a href="https://t.me/Sammael777" target="_blank" style="padding:10px 20px; background:white; color:#0088cc; border:2px solid #0088cc; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">💬 Napísať správcovi</a>
+        </div>
+
+        <div class="filters" style="margin-top: 30px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="filterCards('all')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: #eee;">Všetko</button>
+            <button onclick="filterCards('Obživa')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Obživa</button>
+            <button onclick="filterCards('Remeslá a materiál')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Remeslá</button>
+            <button onclick="filterCards('Záhrada a gazdovstvo')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Záhrada</button>
+            </div>
     </header>
+
+    <script>
+        function filterCards(cat) {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const tag = card.querySelector('.tag').innerText;
+                if (cat === 'all' || tag === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
     
     <div id="list">
         <div class="card">
             <span class="tag">REMESELNÍK</span>
             <span class="name">Sammael - Stolárstvo</span>
-            <span class="loc">📍 Rákoš / Somotor / Prešov</span>
-            <div class="cat">Stolárstvo, avantgarda, orez stromov</div>
+            <span class="loc">📍 Rákoš / Košice / Veľký Horeš</span>
+            <div class="cat">Stolárstvo, avantgarda, orez stromov, digitálna architektúra</div>
             <div class="note">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Podporovateľ Koruny ROD.</div>
             <a href="tel:+421951815453" class="btn-call">📞 Kontaktovať</a>
         </div>
     </div>
 </div>
+<footer style="margin-top: 50px; padding: 30px 20px; border-top: 1px solid #eee; text-align: center; color: #888; font-size: 0.85em;">
+        <p>Spravuje: <strong>Sammael</strong> | Projekt pre komunitu SPDR</p>
+        
+        <div style="margin-top: 10px;">
+            <a href="https://t.me/+EYOYWMIKo1M4ZGM0" target="_blank" style="color: #0088cc; text-decoration: none; font-weight: bold;">
+                🌐 Rodový Jarmok SPDR
+            </a>
+        </div>
+        
+        <p style="margin-top: 20px; font-style: italic; opacity: 0.7;">
+            "Sila je v jednote, krása v remesle."
+        </p>
+    </footer>
 </body>
 </html>
