@@ -27,29 +27,39 @@
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
             <a href="registracia.html" style="padding:10px 20px; background:var(--primary); color:white; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">➕ Pridať moju vizitku</a>
             <a href="https://t.me/Sammael777" target="_blank" style="padding:10px 20px; background:white; color:#0088cc; border:2px solid #0088cc; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">💬 Napísať správcovi</a>
+            <a href="faq.html" style="padding:10px 20px; background:white; color:#666; border:2px solid #ddd; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">❓ FAQ</a>
         </div>
 
-        <div class="filters" style="margin-top: 30px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-            <button onclick="filterCards('all')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: #eee;">Všetko</button>
-            <button onclick="filterCards('Obživa')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Obživa</button>
-            <button onclick="filterCards('Remeslá a materiál')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Remeslá</button>
-            <button onclick="filterCards('Záhrada a gazdovstvo')" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Záhrada</button>
-            </div>
-    </header>
+        <div class="filters" id="filterContainer" style="margin-top: 30px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+    <button onclick="filterCards('all', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: #8fb339; color: white;">Všetko</button>
+    <button onclick="filterCards('Obživa', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Obživa</button>
+    <button onclick="filterCards('Remeslá a materiál', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Remeslá</button>
+    <button onclick="filterCards('Záhrada a gazdovstvo', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Záhrada</button>
+    </div>
 
-    <script>
-        function filterCards(cat) {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const tag = card.querySelector('.tag').innerText;
-                if (cat === 'all' || tag === cat) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
+<script>
+    function filterCards(cat, btn) {
+        // 1. Zmena farby tlačidiel
+        const buttons = document.querySelectorAll('#filterContainer button');
+        buttons.forEach(b => {
+            b.style.background = 'white';
+            b.style.color = 'black';
+        });
+        btn.style.background = '#8fb339'; // Tvoja zelená
+        btn.style.color = 'white';
+
+        // 2. Samotné filtrovanie
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const tag = card.querySelector('.tag').innerText.trim();
+            if (cat === 'all' || tag === cat) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
     
     <div id="list">
         <div class="card">
@@ -59,6 +69,10 @@
             <div class="cat">Stolárstvo, avantgarda, orez stromov, digitálna architektúra</div>
             <div class="note">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Podporovateľ Koruny ROD.</div>
             <a href="tel:+421951815453" class="btn-call">📞 Kontaktovať</a>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
+                <a href="https://facebook.com/jedinecny.povrch.dreva" target="_blank" style="color: #1877F2; text-decoration: none; font-weight: bold; font-size: 0.9em;">Facebook</a>
+                <a href="https://t.me/Sammael777" target="_blank" style="color: #0088cc; text-decoration: none; font-weight: bold; font-size: 0.9em;">Telegram</a>
+            </div>
         </div>
     </div>
 </div>
