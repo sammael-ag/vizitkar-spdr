@@ -27,49 +27,43 @@
 <script>
     function generateCode() {
         const rawText = document.getElementById('inputData').value;
-        const lines = rawText.split('\n').map(line => line.trim()); 
-
-        // Super-odolná funkcia na vyťahovanie dát
-        const grabData = (keyword) => {
-            for (let i = 0; i < lines.length; i++) {
-                // Ak riadok OBSAHUJE kľúčové slovo (napr. "meno")
-                if (lines[i].toLowerCase().includes(keyword.toLowerCase())) {
-                    // Prejdi nasledujúce riadky a hľadaj prvý, čo nie je prázdny a nie je kľúčové slovo
-                    for (let j = i + 1; j < lines.length; j++) {
-                        if (lines[j] !== "" && !lines[j].includes(":")) {
-                            return lines[j];
-                        }
-                    }
-                }
-            }
-            return "";
+        
+        // Funkcia na vytiahnutie textu z toho HTML bordelu
+        const grab = (key) => {
+            const regex = new RegExp(key + "[\\s\\S]*?\\n\\s*([\\s\\S]*?)\\n", "i");
+            const match = rawText.match(regex);
+            return match ? match[1].trim() : "";
         };
 
-        const meno = grabData("meno");
-        const lok = grabData("lokalita");
-        const kat = grabData("kategoria") || grabData("kategória");
-        const popis = grabData("popis");
-        const tel = grabData("telefon") || grabData("telefón");
-        const fb = grabData("facebook") || grabData("fb");
-        const tg = grabData("telegram") || grabData("tg");
-        const gal = grabData("galeria") || grabData("galéria");
-
-        // Vygenerovanie kódu s podmienkou pre tag (ak je prázdny, dá "Iné")
-        const finalTag = kat ? kat : "Iné";
+        const meno = grab("meno");
+        const lok = grab("lokalita");
+        const kat = grab("kategoria");
+        const popis = grab("popis");
+        const tel = grab("telefon");
+        // Tu hľadáme buď 'email' alebo '_replyto'
+        const email = grab("email") || grab("_replyto"); 
+        const fb = grab("facebook");
+        const tg = grab("telegram");
+        const gal = grab("galeria");
 
         const code = `
-        <div class="card">
-            <span class="tag">${finalTag}</span>
-            <span class="name">${meno || 'Meno'}</span>
-            <span class="loc">📍 ${lok || 'Lokalita'}</span>
-            <div class="cat">${popis || 'Činnosť'}</div>
-            <a href="tel:${tel.replace(/\s/g, '')}" class="btn-call">📞 Kontaktovať</a>
-            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                ${fb ? `<a href="${fb}" target="_blank" style="color: #1877F2; text-decoration: none; font-weight: bold; font-size: 0.9em;">Facebook</a>` : ''}
-                ${tg ? `<a href="${tg}" target="_blank" style="color: #0088cc; text-decoration: none; font-weight: bold; font-size: 0.9em;">Telegram</a>` : ''}
-                ${gal ? `<a href="${gal}" target="_blank" style="color: #ea4335; text-decoration: none; font-weight: bold; font-size: 0.9em;">🖼️ Galéria</a>` : ''}
-            </div>
-        </div>`;
+<div class="card" data-category="${kat}">
+    <span class="tag">${kat || 'Iné'}</span>
+    <span class="name">${meno}</span>
+    <span class="loc">📍 ${lok}</span>
+    <div class="cat">${popis}</div>
+    
+    <a href="tel:${tel.replace(/\s/g, '')}" class="btn-call">📞 ${tel}</a>
+    
+    ${email ? `<a href="mailto:${email}" class="btn-call" style="background: #555; margin-top: 5px;">✉️ Poslať e-mail</a>` : ''}
+
+    <div class="social-links">
+        ${fb ? `<a href="${fb}" target="_blank" style="color: #1877F2;">Facebook</a>` : ''}
+        ${tg ? `<a href="${tg}" target="_blank" style="color: #0088cc;">Telegram</a>` : ''}
+        ${gal ? `<a href="${gal}" target="_blank" style="color: #ea4335;">🖼️ Galéria</a>` : ''}
+    </div>
+</div>
+`;
         
         document.getElementById('outputCode').innerText = code;
     }

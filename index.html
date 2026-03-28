@@ -9,13 +9,99 @@
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
         .container { max-width: 600px; margin: auto; }
         header { text-align: center; padding: 20px 0; border-bottom: 2px solid var(--primary); margin-bottom: 20px; }
-        .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-left: 6px solid var(--primary); position: relative; }
-        .tag { position: absolute; top: 15px; right: 15px; font-size: 0.7em; padding: 4px 10px; border-radius: 12px; font-weight: bold; background: #e8f5e9; color: #2e7d32; }
-        .name { font-size: 1.3em; font-weight: bold; margin-bottom: 5px; display: block; color: var(--primary); }
-        .loc { color: #666; font-size: 0.9em; margin-bottom: 12px; display: block; }
-        .cat { font-weight: bold; color: #444; font-size: 0.9em; }
-        .note { font-style: italic; color: #888; font-size: 0.85em; margin-top: 10px; border-top: 1px dashed #eee; padding-top: 8px; }
-        .btn-call { display: block; width: 100%; text-align: center; padding: 12px; background: var(--primary); color: white; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 15px; }
+/* --- Zjednodušené CSS pre vizitky (Vymeň v index.html) --- */
+#list {
+    display: flex;
+    flex-wrap: wrap; /* Vizitky sa budú pekne radiť vedľa seba a pod seba */
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 300px; /* Pevná šírka pre pekný regál */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Všetko na stred */
+    text-align: center;
+    transition: 0.3s;
+    position: relative;
+    border: 2px solid transparent; /* Príprava pre zvýraznenie kategórie */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card .tag {
+    background: #eef2f3;
+    color: #8fb339;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.card .name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 25px; /* Priestor pre tag */
+    margin-bottom: 5px;
+}
+
+.card .loc {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.card .cat {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Popis vyplní priestor, aby boli tlačidlá v jednej rovine */
+}
+
+.btn-call {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #8fb339;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+.btn-call:hover {
+    background: #7a9a30;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.social-links a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+/* --------------------------------------------------------- */
     </style>
 </head>
 <body>
@@ -87,19 +173,23 @@ function applySearchAndFilter() {
 </script>
     
     <div id="list">
-        <div class="card">
-            <span class="tag">Remeslá a materiál</span>
-            <span class="name">Sammael - Stolárstvo</span>
-            <span class="loc">📍 Rákoš / Košice / Veľký Horeš</span>
-            <div class="cat">Stolárstvo, avantgarda, orez stromov, digitálna architektúra</div>
-            <div class="note">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Podporovateľ Koruny ROD.</div>
-            <a href="tel:+421951815453" class="btn-call">📞 Kontaktovať</a>
-            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                <a href="https://facebook.com/jedinecny.povrch.dreva" target="_blank" style="color: #1877F2; text-decoration: none; font-weight: bold; font-size: 0.9em;">Facebook</a>
-                <a href="https://t.me/Sammael777" target="_blank" style="color: #0088cc; text-decoration: none; font-weight: bold; font-size: 0.9em;">Telegram</a>
-                <a href="https://photos.app.goo.gl/pqbaoq7d7g7HkTix8" target="_blank" style="color: #ea4335; text-decoration: none; font-weight: bold; font-size: 0.9em;">🖼️ Galéria</a>
-            </div>
-        </div>
+ 				<div class="card" data-category="">
+    <span class="tag">Iné</span>
+    <span class="name"></span>
+    <span class="loc">📍 </span>
+    <div class="cat">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Podporovateľ Koruny ROD.</div>
+    
+    <a href="tel:+421951815453" class="btn-call">📞 +421951815453</a>
+    
+    <a href="mailto:sammael.ag@gmail.com" class="btn-call" style="background: #555; margin-top: 5px;">✉️ Poslať e-mail</a>
+
+    <div class="social-links">
+        <a href="https://facebook.com/jedinecny.povrch.dreva" target="_blank" style="color: #1877F2;">Facebook</a>
+        <a href="https://t.me/Sammael777" target="_blank" style="color: #0088cc;">Telegram</a>
+        <a href="https://photos.app.goo.gl/pqbaoq7d7g7HkTix8" target="_blank" style="color: #ea4335;">🖼️ Galéria</a>
+    </div>
+</div>
+
                 <div class="card">
             <span class="tag">Stavba</span>
             <span class="name">Matej Hudec</span>
@@ -107,8 +197,68 @@ function applySearchAndFilter() {
             <div class="cat">ponúkam interiérové stavebné práce</div>
             <a href="tel:+421689780" class="btn-call">📞 Kontaktovať</a>
             <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-            </div>
-        </div>
+            </div>       
+
+				<div class="card">
+    <span class="tag">Knihy</span>
+    <span class="name">Miloš Šťastný</span>
+    <span class="loc">📍 Rožňava</span>
+    <div class="cat">Ponúkam staršie aj vzácne knihy z vlastnej zbierky, zameranie na históriu a duchovný rozvoj.</div>
+    <a href="tel:+421901222333" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">       
+    </div>
+</div>
+       
+		      <div class="card">
+    <span class="tag">Zdravie</span>
+    <span class="name">Mária Silná</span>
+    <span class="loc">📍 Revúca</span>
+    <div class="cat">Predaj sezónnej bio-zeleniny a bylinkových čajov z našej rodinnej farmy.</div>
+    <a href="tel:+421902333444" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
+       		<div class="card">
+    <span class="tag">Oblečenie</span>
+    <span class="name">Elena Spokojná</span>
+    <span class="loc">📍 Košice</span>
+    <div class="cat">Šitie a úprava odevov na mieru, oprava pracovných odevov a bytový textil.</div>
+    <a href="tel:+421903444555" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">  
+    </div>
+</div>
+       
+       <div class="card">
+    <span class="tag">Auto-moto</span>
+    <span class="name">Andrej Živý</span>
+    <span class="loc">📍 Rimavská Sobota</span>
+    <div class="cat">Pravidelný servis motorových píl, kosačiek a malotraktorov. Rýchlo a spoľahlivo.</div>
+    <a href="tel:+421904555666" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
+       <div class="card">
+    <span class="tag">Vzdelanie</span>
+    <span class="name">Jana Múdra</span>
+    <span class="loc">📍 Trebišov</span>
+    <div class="cat">Doučovanie matematiky a fyziky pre základné a stredné školy. Trpezlivý prístup.</div>
+    <a href="tel:+421905666777" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
+       <div class="card">
+    <span class="tag">Voľný čas</span>
+    <span class="name">Peter Veselý</span>
+    <span class="loc">📍 Kráľovský Chlmec</span>
+    <div class="cat">Kurzy rezbárstva pre začiatočníkov. Príďte si vyrobiť vlastnú drevenú lyžicu.</div>
+    <a href="tel:+421906777888" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
     </div>
 </div>
 <footer style="margin-top: 50px; padding: 30px 20px; border-top: 1px solid #eee; text-align: center; color: #888; font-size: 0.85em;">
