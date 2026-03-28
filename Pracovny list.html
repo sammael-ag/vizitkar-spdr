@@ -1,32 +1,92 @@
-let currentCategory = 'vsetko';
+duplicity podľa: kategorie, email,  tel.č. a lokality - ukáźe poslednú (najnovšiu pridanú...)
 
-// Táto funkcia sa spustí pri zmene v Select menu
-function filterByCategory() {
-    currentCategory = document.getElementById('categorySelect').value;
-    applySearchAndFilter();
-}
 
-// Reaguje na písanie
-function searchLocation() {
-    applySearchAndFilter();
-}
 
-// Spoločné vyhodnotenie (ostáva skoro rovnaké, len čistejšie)
-function applySearchAndFilter() {
-    let searchInput = document.getElementById('searchInput').value.toLowerCase();
-    let cards = document.querySelectorAll('.card');
+<div class="card" data-category="remesla">
+    <span class="tag">Remeslá a materiál</span>
+    <span class="name">Samuel Hudec - Sammael</span>
+    <span class="loc">📍 Košice</span>
+    <div class="cat">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Starostlivosť o stromy a záhradu. Podporovateľ Koruny ROD.</div>
+    
+    <a href="tel:+421951815453" class="btn-call">📞 +421951815453</a>
+    
+    <a href="mailto:sammael.ag@gmail.com" class="btn-call" style="background: #555; margin-top: 5px;">✉️ Poslať e-mail</a>
 
-    cards.forEach(card => {
-        let cardCategory = card.getAttribute('data-category') || "ine";
-        let locationText = card.querySelector('.loc').innerText.toLowerCase();
+    <div class="social-links">
+        <a href="https://facebook.com/jedinecny.povrch.dreva" target="_blank" style="color: #1877F2;">Facebook</a>
+        <a href="https://t.me/Sammael777" target="_blank" style="color: #0088cc;">Telegram</a>
+        <a href="https://photos.app.goo.gl/pqbaoq7d7g7HkTix8" target="_blank" style="color: #ea4335;">🖼️ Galéria</a>
+    </div>
+</div>
 
-        let matchCategory = (currentCategory === 'vsetko' || cardCategory === currentCategory);
-        let matchSearch = (searchInput.length < 3 || locationText.includes(searchInput));
 
-        if (matchCategory && matchSearch) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
+
+<div class="card" data-category="remesla">
+    <span class="tag">Remeslá a materiál</span>
+    <span class="name">Matej Hudec</span>
+    <span class="loc">📍 Veľký Horeš</span>
+    <div class="cat">ponúkam interiérové stavebné práce</div>
+    <a href="tel:+421689780" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+	</div>
+</div>       
+
+<div class="card" data-category="knihy">
+    <span class="tag">Knihy</span>
+    <span class="name">Miloš Šťastný</span>
+    <span class="loc">📍 Rožňava</span>
+    <div class="cat">Ponúkam staršie aj vzácne knihy z vlastnej zbierky, zameranie na históriu a duchovný rozvoj.</div>
+    <a href="tel:+421901222333" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">       
+    </div>
+</div>
+       
+<div class="card" data-category="zdravie">
+    <span class="tag">Zdravie</span>
+    <span class="name">Mária Silná</span>
+    <span class="loc">📍 Revúca</span>
+    <div class="cat">Predaj sezónnej bio-zeleniny a bylinkových čajov z našej rodinnej farmy.</div>
+    <a href="tel:+421902333444" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
+<div class="card" data-category="oblecenie">
+    <span class="tag">Oblečenie</span>
+    <span class="name">Elena Spokojná</span>
+    <span class="loc">📍 Košice</span>
+    <div class="cat">Šitie a úprava odevov na mieru, oprava pracovných odevov a bytový textil.</div>
+    <a href="tel:+421903444555" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">  
+    </div>
+</div>
+       
+<div class="card" data-category="auto">
+    <span class="tag">Auto-moto</span>
+    <span class="name">Andrej Živý</span>
+    <span class="loc">📍 Rimavská Sobota</span>
+    <div class="cat">Pravidelný servis motorových píl, kosačiek a malotraktorov. Rýchlo a spoľahlivo.</div>
+    <a href="tel:+421904555666" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
+<div class="card" data-category="vzdelanie">
+    <span class="tag">Vzdelanie</span>
+    <span class="name">Jana Múdra</span>
+    <span class="loc">📍 Trebišov</span>
+    <div class="cat">Doučovanie matematiky a fyziky pre základné a stredné školy. Trpezlivý prístup.</div>
+    <a href="tel:+421905666777" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>
+       
+<div class="card" data-category="volno">
+    <span class="tag">Voľný čas</span>
+    <span class="name">Peter Veselý</span>
+    <span class="loc">📍 Kráľovský Chlmec</span>
+    <div class="cat">Kurzy rezbárstva pre začiatočníkov. Príďte si vyrobiť vlastnú drevenú lyžicu.</div>
+    <a href="tel:+421906777888" class="btn-call">📞 Kontaktovať</a>
+    <div class="social-links">
+    </div>
+</div>

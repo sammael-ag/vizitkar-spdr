@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "kat": "remesla",
+    "meno": "Samuel Hudec - Sammael",
+    "lok": "Košice",
+    "popis": "Špecialista na netradičné projekty, steampunk a rustikálny štýl. Starostlivosť o stromy a záhradu. Podporovateľ Koruny ROD.",
+    "tel": "+421951815453",
+    "email": "sammael.ag@gmail.com",
+    "fb": "https://facebook.com/jedinecny.povrch.dreva",
+    "tg": "https://t.me/Sammael777",
+    "gal": "https://photos.app.goo.gl/pqbaoq7d7g7HkTix8"
+  }
+  ,
+{
+  "id": 2,
+  "kat": "remesla",
+  "meno": "Matej Hudec - Matias",
+  "lok": "Veľký Horeš",
+  "popis": "Dokončovanie stavieb, interiérové práce.",
+  "tel": "+42151651315",
+  "email": "vavkdku@akud.kl",
+}
+,
+{
+  "id": 3,
+  "kat": "knihy",
+  "meno": "Miloš ŠŤastný",
+  "lok": "Rožňava",
+  "popis": "Ponúkam staršie aj vzácne knihy z vlastnej zbierky, zameranie na históriu a duchovný rozvoj.",
+  "tel": "+4211843138",
+  "email": "bfsgsrzjh@gysrwg.hj",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+]

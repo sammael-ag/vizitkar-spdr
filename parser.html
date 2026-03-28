@@ -25,47 +25,51 @@
     </div>
 
 <script>
+    let nextId = 2; // Ty si #1, začíname od dvojky
+
     function generateCode() {
         const rawText = document.getElementById('inputData').value;
         
-        // Funkcia na vytiahnutie textu z toho HTML bordelu
+        // --- TVOJA VYCHYTÁVKA (Regex na čistenie bordelu) ---
         const grab = (key) => {
             const regex = new RegExp(key + "[\\s\\S]*?\\n\\s*([\\s\\S]*?)\\n", "i");
             const match = rawText.match(regex);
             return match ? match[1].trim() : "";
         };
 
+        // Vyťahujeme dáta pomocou tvojho "grabu"
         const meno = grab("meno");
         const lok = grab("lokalita");
         const kat = grab("kategoria");
         const popis = grab("popis");
         const tel = grab("telefon");
-        // Tu hľadáme buď 'email' alebo '_replyto'
         const email = grab("email") || grab("_replyto"); 
         const fb = grab("facebook");
         const tg = grab("telegram");
         const gal = grab("galeria");
 
-        const code = `
-<div class="card" data-category="${kat}">
-    <span class="tag">${kat || 'Iné'}</span>
-    <span class="name">${meno}</span>
-    <span class="loc">📍 ${lok}</span>
-    <div class="cat">${popis}</div>
-    
-    <a href="tel:${tel.replace(/\s/g, '')}" class="btn-call">📞 Kontaktovať</a>
-    
-    ${email ? `<a href="mailto:${email}" class="btn-call" style="background: #555; margin-top: 5px;">✉️ Poslať e-mail</a>` : ''}
+        // --- MOJA ÚPRAVA (Balíme to do JSONu) ---
+        const entry = {
+            id: nextId,
+            kat: kat.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""), // Očistíme kategóriu pre filter
+            meno: meno,
+            lok: lok,
+            popis: popis,
+            tel: tel,
+            email: email,
+            fb: fb,
+            tg: tg,
+            gal: gal
+        };
 
-    <div class="social-links">
-        ${fb ? `<a href="${fb}" target="_blank" style="color: #1877F2;">Facebook</a>` : ''}
-        ${tg ? `<a href="${tg}" target="_blank" style="color: #0088cc;">Telegram</a>` : ''}
-        ${gal ? `<a href="${gal}" target="_blank" style="color: #ea4335;">🖼️ Galéria</a>` : ''}
-    </div>
-</div>
-`;
+        // Výstup pripravený na skopírovanie do data.json
+        const jsonString = ",\n" + JSON.stringify(entry, null, 2);
         
-        document.getElementById('outputCode').innerText = code;
+        // Zobrazíme to v tvojom výstupnom poli
+        document.getElementById('outputCode').innerText = jsonString;
+
+        // Posunieme ID pre ďalšieho
+        nextId++;
     }
 </script>
 </body>
