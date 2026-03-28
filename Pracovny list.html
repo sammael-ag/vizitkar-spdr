@@ -1,0 +1,32 @@
+let currentCategory = 'vsetko';
+
+// Táto funkcia sa spustí pri zmene v Select menu
+function filterByCategory() {
+    currentCategory = document.getElementById('categorySelect').value;
+    applySearchAndFilter();
+}
+
+// Reaguje na písanie
+function searchLocation() {
+    applySearchAndFilter();
+}
+
+// Spoločné vyhodnotenie (ostáva skoro rovnaké, len čistejšie)
+function applySearchAndFilter() {
+    let searchInput = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        let cardCategory = card.getAttribute('data-category') || "ine";
+        let locationText = card.querySelector('.loc').innerText.toLowerCase();
+
+        let matchCategory = (currentCategory === 'vsetko' || cardCategory === currentCategory);
+        let matchSearch = (searchInput.length < 3 || locationText.includes(searchInput));
+
+        if (matchCategory && matchSearch) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}

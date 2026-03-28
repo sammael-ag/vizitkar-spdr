@@ -180,29 +180,49 @@ select:focus, #searchInput:focus {
 <script>
 let currentCategory = 'vsetko';
 
-// Táto funkcia sa spustí pri zmene v Select menu
-function filterByCategory() {
-    currentCategory = document.getElementById('categorySelect').value;
-    applySearchAndFilter();
+// Pomocná funkcia: Odstráni dĺžne a mäkčene (hoblík na diakritiku)
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-// Reaguje na písanie
+// Spustí sa pri zmene v Select menu
+function filterByCategory() {
+    const select = document.getElementById('categorySelect');
+    if (select) {
+        currentCategory = select.value;
+        applySearchAndFilter();
+    }
+}
+
+// Reaguje na písanie v hľadaní
 function searchLocation() {
     applySearchAndFilter();
 }
 
-// Spoločné vyhodnotenie (ostáva skoro rovnaké, len čistejšie)
+// Hlavný vyhodnocovací proces
 function applySearchAndFilter() {
-    let searchInput = document.getElementById('searchInput').value.toLowerCase();
+    // 1. Vyčistíme hľadaný text (malé písmená + bez diakritiky)
+    let rawSearch = document.getElementById('searchInput').value.toLowerCase();
+    let searchInput = removeAccents(rawSearch);
+    
     let cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
+        // 2. Získame dáta z vizitky
         let cardCategory = card.getAttribute('data-category') || "ine";
         let locationText = card.querySelector('.loc').innerText.toLowerCase();
+        let cleanLocation = removeAccents(locationText);
 
+        // 3. Logika kategórie
         let matchCategory = (currentCategory === 'vsetko' || cardCategory === currentCategory);
-        let matchSearch = (searchInput.length < 3 || locationText.includes(searchInput));
 
+        // 4. Logika hľadania (Lokalita) - reaguje už od 2 znakov pre lepší pocit
+        let matchSearch = true;
+        if (searchInput.length >= 2) {
+            matchSearch = cleanLocation.includes(searchInput);
+        }
+
+        // 5. Finálne zobrazenie
         if (matchCategory && matchSearch) {
             card.style.display = 'flex';
         } else {
@@ -213,7 +233,7 @@ function applySearchAndFilter() {
 </script>
     
     <div id="list">
-<div class="card" data-category="Remeslá a materiál">
+<div class="card" data-category="remesla">
     <span class="tag">Remeslá a materiál</span>
     <span class="name">Samuel Hudec - Sammael</span>
     <span class="loc">📍 Košice</span>
@@ -230,7 +250,7 @@ function applySearchAndFilter() {
     </div>
 </div>
 
-<div class="card">
+<div class="card" data-category="remesla">
     <span class="tag">Remeslá a materiál</span>
     <span class="name">Matej Hudec</span>
     <span class="loc">📍 Veľký Horeš</span>
@@ -240,7 +260,7 @@ function applySearchAndFilter() {
 	</div>
 </div>       
 
-<div class="card">
+<div class="card" data-category="knihy">
     <span class="tag">Knihy</span>
     <span class="name">Miloš Šťastný</span>
     <span class="loc">📍 Rožňava</span>
@@ -250,7 +270,7 @@ function applySearchAndFilter() {
     </div>
 </div>
        
-<div class="card">
+<div class="card" data-category="zdravie">
     <span class="tag">Zdravie</span>
     <span class="name">Mária Silná</span>
     <span class="loc">📍 Revúca</span>
@@ -260,7 +280,7 @@ function applySearchAndFilter() {
     </div>
 </div>
        
-<div class="card">
+<div class="card" data-category="oblecenie">
     <span class="tag">Oblečenie</span>
     <span class="name">Elena Spokojná</span>
     <span class="loc">📍 Košice</span>
@@ -270,7 +290,7 @@ function applySearchAndFilter() {
     </div>
 </div>
        
-<div class="card">
+<div class="card" data-category="auto">
     <span class="tag">Auto-moto</span>
     <span class="name">Andrej Živý</span>
     <span class="loc">📍 Rimavská Sobota</span>
@@ -280,7 +300,7 @@ function applySearchAndFilter() {
     </div>
 </div>
        
-<div class="card">
+<div class="card" data-category="vzdelanie">
     <span class="tag">Vzdelanie</span>
     <span class="name">Jana Múdra</span>
     <span class="loc">📍 Trebišov</span>
@@ -290,7 +310,7 @@ function applySearchAndFilter() {
     </div>
 </div>
        
-<div class="card">
+<div class="card" data-category="volno">
     <span class="tag">Voľný čas</span>
     <span class="name">Peter Veselý</span>
     <span class="loc">📍 Kráľovský Chlmec</span>
