@@ -10,27 +10,41 @@
         .container { max-width: 600px; margin: auto; }
         header { text-align: center; padding: 20px 0; border-bottom: 2px solid var(--primary); margin-bottom: 20px; }
 /* --- Zjednodušené CSS pre vizitky (Vymeň v index.html) --- */
-#list {
-    display: flex;
-    flex-wrap: wrap; /* Vizitky sa budú pekne radiť vedľa seba a pod seba */
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
+/* --- Inteligentné CSS pre vizitky (Vymeň v index.html) --- */
 .card {
     background: white;
-    padding: 25px;
+    padding: 30px; /* Trochu viac priestoru vnútri */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: 300px; /* Pevná šírka pre pekný regál */
+    
+    /* MÁGIA TU: Na mobile (úzkom displeji) bude mať šírku 100%, 
+       ale na desktope (širokom displeji) sa roztiahne, ale len po max. 600px, 
+       aby to nebol zase extrémne široký slíž. */
+    width: 100%; 
+    max-width: 600px; 
+    
+    margin: 10px auto; /* Vycentruje vizitku a dá medzery */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Všetko na stred */
+    align-items: center; 
     text-align: center;
     transition: 0.3s;
     position: relative;
-    border: 2px solid transparent; /* Príprava pre zvýraznenie kategórie */
+    box-sizing: border-box; /* Dôležité pre správne počítanie paddingu */
+}
+
+/* Na desktope chceme, aby sa vizitky radili vedľa seba, ak sa zmestia,
+   takže upravíme aj ich obal (#list). Ak chceš mať vždy len jednu vizitku 
+   na riadok a centrovanú (ako v "Prvom úspechu"), vymeň aj #list za toto: */
+
+#list {
+    display: flex;
+    flex-direction: column; /* Vizitky pod sebou, vycentrované */
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .card:hover {
@@ -136,44 +150,48 @@
 	</div>
 
 <script>
-    let currentCategory = 'all';
+// 1. Táto funkcia reaguje na kliknutie na TLAČIDLÁ (Remeslá, Obživa...)
+let currentCategory = 'vsetko'; 
 
-// Táto funkcia sa spustí, keď klikneš na tlačidlo kategórie (Remeslá, Záhrada...)
-function filterCards(cat, btn) {
-    currentCategory = cat;
+function filterCards(category, btn) {
+    currentCategory = category;
     
-    const buttons = document.querySelectorAll('#filterContainer button');
-    buttons.forEach(b => {
-        b.style.background = 'white';
-        b.style.color = 'black';
-    });
-    btn.style.background = '#8fb339';
-    btn.style.color = 'white';
-
-    applySearchAndFilter(); // Spustí spoločný filter
+    // Vizuálne prepnutie aktívneho tlačidla
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    
+    // Spustí spoločný mozog hľadania
+    applySearchAndFilter();
 }
 
-// Táto funkcia sa spustí, keď píšeš do hľadania (Revúca, okres...)
+// 2. Táto funkcia reaguje na PÍSANIE do vyhľadávača (Lokalita)
 function searchLocation() {
-    applySearchAndFilter(); // Spustí spoločný filter
+    applySearchAndFilter();
 }
 
-// Toto je ten mozog, ktorý to celé spojí dohromady
+// 3. SPOLOČNÝ MOZOG - Ten, čo sme prebrúsili minule
 function applySearchAndFilter() {
     let searchInput = document.getElementById('searchInput').value.toLowerCase();
     let cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        let cardTag = card.querySelector('.tag').innerText.trim();
-        let cardLoc = card.querySelector('.loc').innerText.toLowerCase();
+        let cardCategory = card.getAttribute('data-category') || "";
+        let locationText = card.querySelector('.loc').innerText.toLowerCase();
 
-        const matchesCategory = (currentCategory === 'all' || cardTag === currentCategory);
-        const matchesSearch = cardLoc.includes(searchInput);
+        // Musí sedieť kategória
+        let matchCategory = (currentCategory === 'vsetko' || cardCategory === currentCategory);
 
-        if (matchesCategory && matchesSearch) {
-            card.style.display = "block";
+        // Musí sedieť text (hľadáme od 3 znakov)
+        let matchSearch = true;
+        if (searchInput.length >= 3) {
+            matchSearch = locationText.includes(searchInput);
+        }
+
+        // Ak oboje sedí, ukáž vizitku
+        if (matchCategory && matchSearch) {
+            card.style.display = 'flex';
         } else {
-            card.style.display = "none";
+            card.style.display = 'none';
         }
     });
 }
@@ -184,7 +202,7 @@ function applySearchAndFilter() {
     <span class="tag">Remeslá a materiál</span>
     <span class="name">Samuel Hudec - Sammael</span>
     <span class="loc">📍 Košice</span>
-    <div class="cat">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Podporovateľ Koruny ROD.</div>
+    <div class="cat">Špecialista na netradičné projekty, steampunk a rustikálny štýl. Starostlivosť o stromy a záhradu. Podporovateľ Koruny ROD.</div>
     
     <a href="tel:+421951815453" class="btn-call">📞 +421951815453</a>
     
