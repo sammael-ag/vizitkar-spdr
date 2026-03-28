@@ -30,12 +30,23 @@
     function generateCode() {
         const rawText = document.getElementById('inputData').value;
         
-        // --- TVOJA VYCHYTÁVKA (Regex na čistenie bordelu) ---
-        const grab = (key) => {
-            const regex = new RegExp(key + "[\\s\\S]*?\\n\\s*([\\s\\S]*?)\\n", "i");
-            const match = rawText.match(regex);
-            return match ? match[1].trim() : "";
-        };
+// --- TVOJA VYLEPŠENÁ VYCHYTÁVKA ---
+const grab = (key) => {
+    // Tento regex teraz hľadá kľúč a vezme zvyšok riadku ALEBO text pod ním
+    const regex = new RegExp(key + "[:\\s]*([\\s\\S]*?)(?:\\n|$)", "i");
+    const match = rawText.match(regex);
+    if (match && match[1]) {
+        let result = match[1].trim();
+        // Ak je výsledok prázdny (len nový riadok), skúsime hľadať hlbšie
+        if (result === "") {
+            const deepRegex = new RegExp(key + "[\\s\\S]*?\\n\\s*([\\s\\S]*?)\\n", "i");
+            const deepMatch = rawText.match(deepRegex);
+            return deepMatch ? deepMatch[1].trim() : "";
+        }
+        return result;
+    }
+    return "";
+};
 
         // Vyťahujeme dáta pomocou tvojho "grabu"
         const meno = grab("meno");

@@ -19,7 +19,7 @@
   "lok": "Veľký Horeš",
   "popis": "Dokončovanie stavieb, interiérové práce.",
   "tel": "+42151651315",
-  "email": "vavkdku@akud.kl",
+  "email": "vavkdku@akud.kl"
 }
 ,
 {
@@ -30,6 +30,71 @@
   "popis": "Ponúkam staršie aj vzácne knihy z vlastnej zbierky, zameranie na históriu a duchovný rozvoj.",
   "tel": "+4211843138",
   "email": "bfsgsrzjh@gysrwg.hj",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 4,
+  "kat": "zdravie",
+  "meno": "Mária Silná",
+  "lok": "Revúca",
+  "popis": "Predaj sezónnej bio-zeleniny a bylinkových čajov z našej rodinnej farmy.",
+  "tel": "+421184313835",
+  "email": "ydgnbydg@wsrge.com",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 5,
+  "kat": "oblecenie",
+  "meno": "Elena Spokojná",
+  "lok": "Košice",
+  "popis": "Šitie a úprava odevov na mieru, oprava pracovných odevov a bytový textil.",
+  "tel": "+421184313835",
+  "email": "bseebe@vga.sk",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 6,
+  "kat": "auto",
+  "meno": "Andrej Živý",
+  "lok": "Rimavská Sobota",
+  "popis": "Pravidelný servis motorových píl, kosačiek a malotraktorov. Rýchlo a spoľahlivo.",
+  "tel": "+421184313835",
+  "email": "vfbadgnb@dfgsth.jk",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 3,
+  "kat": "vzdelanie",
+  "meno": "Jana Múdra",
+  "lok": "Trebišov",
+  "popis": "Doučovanie matematiky a fyziky pre základné a stredné školy. Trpezlivý prístup.",
+  "tel": "+421184313835",
+  "email": "351684bati@gmail.com",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 4,
+  "kat": "volno",
+  "meno": "Peter Veselý",
+  "lok": "Kráľovský Chlmec",
+  "popis": "Kurzy rezbárstva pre začiatočníkov. Príďte si vyrobiť vlastnú drevenú lyžicu.",
+  "tel": "+46846818361531",
+  "email": "351684bati@gmail.com",
   "fb": "",
   "tg": "",
   "gal": ""
