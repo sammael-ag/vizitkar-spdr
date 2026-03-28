@@ -154,22 +154,24 @@ select:focus, #searchInput:focus {
             <a href="faq.html" style="padding:10px 20px; background:white; color:#666; border:2px solid #ddd; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">❓ FAQ</a>
         </div>
 
-        <div class="filter-container">
-    <select id="categorySelect" onchange="filterByCategory()">
-        <option value="vsetko">Všetky kategórie</option>
-        <option value="obziva">Obživa a poživatiny</option>
-        <option value="remesla">Remeslá a materiál</option>
-        <option value="sluzby">Služby a pomoc</option>
-        <option value="vzdelavanie">Vzdelávanie a rozvoj</option>
-        <option value="knihy">Knihy</option>
-        <option value="zdravie">Zdravie</option>
-        <option value="oblecenie">Oblečenie</option>
-        <option value="auto">Auto-moto</option>
-        <option value="volno">Voľný čas</option>
-        <option value="ine">Iné</option>
+<div class="filter-container" style="text-align: center; max-width: 400px; margin: 0 auto 30px auto;">
+    <select id="categorySelect" onchange="filterByCategory()" 
+            style="width: 100%; padding: 12px; border-radius: 25px; border: 2px solid #ddd; font-size: 1em; outline: none; margin-bottom: 10px; cursor: pointer;">
+        <option value="vsetko">🌈 Všetky kategórie</option>
+        <option value="obziva">🍎 Obživa a poživatiny</option>
+        <option value="remesla">🛠️ Remeslá a materiál</option>
+        <option value="sluzby">🤝 Služby a pomoc</option>
+        <option value="vzdelavanie">📚 Vzdelávanie a rozvoj</option>
+        <option value="knihy">📖 Knihy</option>
+        <option value="zdravie">🌿 Zdravie</option>
+        <option value="oblecenie">👕 Oblečenie</option>
+        <option value="auto">🚗 Auto-moto</option>
+        <option value="volno">🎨 Voľný čas</option>
+        <option value="ine">✨ Iné</option>
     </select>
 
-    <input type="text" id="searchInput" onkeyup="searchLocation()" placeholder="Hľadať lokalitu (napr. Košice)...">
+    <input type="text" id="searchInput" onkeyup="searchLocation()" placeholder="🔍 Hľadať podľa mesta alebo okresu..." 
+           style="width: 100%; padding: 12px; border-radius: 25px; border: 2px solid #ddd; font-size: 1em; outline: none; box-sizing: border-box;">
 </div>
 
 	<div style="margin-top: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">
