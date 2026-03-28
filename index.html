@@ -115,6 +115,30 @@
     font-weight: bold;
     font-size: 0.9em;
 }
+
+select, #searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    margin: 5px 0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px; /* Dôležité pre mobil, aby zoom neblbol */
+    outline: none;
+    transition: 0.3s;
+}
+
+select:focus, #searchInput:focus {
+    border-color: #8fb339;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
 /* --------------------------------------------------------- */
     </style>
 </head>
@@ -130,19 +154,23 @@
             <a href="faq.html" style="padding:10px 20px; background:white; color:#666; border:2px solid #ddd; border-radius:25px; text-decoration:none; font-weight:bold; font-size:0.85em;">❓ FAQ</a>
         </div>
 
-        <div class="filters" id="filterContainer" style="margin-top: 30px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-    <button onclick="filterCards('all', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: #8fb339; color: white;">Všetko</button>
-    <button onclick="filterCards('Obživa', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Obživa</button>
-    <button onclick="filterCards('Remeslá a materiál', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Remeslá</button>
-    <button onclick="filterCards('Záhrada a gazdovstvo', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Záhrada</button>
-    <button onclick="filterCards('Vzdelanie', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Vzdelanie</button>
-    <button onclick="filterCards('Stavba', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Stavba</button>
-    <button onclick="filterCards('Knihy', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Knihy</button>
-    <button onclick="filterCards('Auto-moto', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Auto-moto</button>
-    <button onclick="filterCards('Oblečenie', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Oblečenie</button>
-    <button onclick="filterCards('Zdravie', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Zdravie</button>
-    <button onclick="filterCards('Volný čas', this)" style="cursor:pointer; padding: 5px 12px; border-radius: 15px; border: 1px solid #ddd; background: white;">Voľný čas</button>
-    </div>
+        <div class="filter-container">
+    <select id="categorySelect" onchange="filterByCategory()">
+        <option value="vsetko">Všetky kategórie</option>
+        <option value="obziva">Obživa a poživatiny</option>
+        <option value="remesla">Remeslá a materiál</option>
+        <option value="sluzby">Služby a pomoc</option>
+        <option value="vzdelavanie">Vzdelávanie a rozvoj</option>
+        <option value="knihy">Knihy</option>
+        <option value="zdravie">Zdravie</option>
+        <option value="oblecenie">Oblečenie</option>
+        <option value="auto">Auto-moto</option>
+        <option value="volno">Voľný čas</option>
+        <option value="ine">Iné</option>
+    </select>
+
+    <input type="text" id="searchInput" onkeyup="searchLocation()" placeholder="Hľadať lokalitu (napr. Košice)...">
+</div>
 
 	<div style="margin-top: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">
     <input type="text" id="searchInput" onkeyup="searchLocation()" placeholder="🔍 Hľadať podľa mesta alebo okresu..." 
@@ -150,44 +178,31 @@
 	</div>
 
 <script>
-// 1. Táto funkcia reaguje na kliknutie na TLAČIDLÁ (Remeslá, Obživa...)
-let currentCategory = 'vsetko'; 
+let currentCategory = 'vsetko';
 
-function filterCards(category, btn) {
-    currentCategory = category;
-    
-    // Vizuálne prepnutie aktívneho tlačidla
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    
-    // Spustí spoločný mozog hľadania
+// Táto funkcia sa spustí pri zmene v Select menu
+function filterByCategory() {
+    currentCategory = document.getElementById('categorySelect').value;
     applySearchAndFilter();
 }
 
-// 2. Táto funkcia reaguje na PÍSANIE do vyhľadávača (Lokalita)
+// Reaguje na písanie
 function searchLocation() {
     applySearchAndFilter();
 }
 
-// 3. SPOLOČNÝ MOZOG - Ten, čo sme prebrúsili minule
+// Spoločné vyhodnotenie (ostáva skoro rovnaké, len čistejšie)
 function applySearchAndFilter() {
     let searchInput = document.getElementById('searchInput').value.toLowerCase();
     let cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        let cardCategory = card.getAttribute('data-category') || "";
+        let cardCategory = card.getAttribute('data-category') || "ine";
         let locationText = card.querySelector('.loc').innerText.toLowerCase();
 
-        // Musí sedieť kategória
         let matchCategory = (currentCategory === 'vsetko' || cardCategory === currentCategory);
+        let matchSearch = (searchInput.length < 3 || locationText.includes(searchInput));
 
-        // Musí sedieť text (hľadáme od 3 znakov)
-        let matchSearch = true;
-        if (searchInput.length >= 3) {
-            matchSearch = locationText.includes(searchInput);
-        }
-
-        // Ak oboje sedí, ukáž vizitku
         if (matchCategory && matchSearch) {
             card.style.display = 'flex';
         } else {
@@ -216,7 +231,7 @@ function applySearchAndFilter() {
 </div>
 
 <div class="card">
-    <span class="tag">Stavba</span>
+    <span class="tag">Remeslá a materiál</span>
     <span class="name">Matej Hudec</span>
     <span class="loc">📍 Veľký Horeš</span>
     <div class="cat">ponúkam interiérové stavebné práce</div>
