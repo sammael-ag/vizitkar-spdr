@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Sammaelova Fabrika v3.0</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; background: #eef2f3; color: #333; }
+        .box { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 200px; margin: 15px 0; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: monospace; }
+        pre { background: #2d3436; color: #fab1a0; padding: 20px; overflow-x: auto; border-radius: 8px; font-size: 0.9em; line-height: 1.4; }
+        button { width: 100%; padding: 15px; background: #8fb339; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #7a9a30; transform: translateY(-2px); }
+        h2 { color: #8fb339; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>🛠️ Sammaelov Generátor Vizitiek v3.0</h2>
+        <p>Skopíruj sem celý text z e-mailu (Formspree):</p>
+        <textarea id="inputData" placeholder="Sem vlož text z mailu..."></textarea>
+        <button onclick="generateCode()">VYROBIŤ KÓD VIZITKY</button>
+        
+        <h3>Výsledný kód pre tvoj index.html:</h3>
+        <pre id="outputCode">Tu sa objaví hotový kód...</pre>
+    </div>
+
+<script>
+    function generateCode() {
+        const rawText = document.getElementById('inputData').value;
+        const lines = rawText.split('\n').map(line => line.trim()); 
+
+        // Super-odolná funkcia na vyťahovanie dát
+        const grabData = (keyword) => {
+            for (let i = 0; i < lines.length; i++) {
+                // Ak riadok OBSAHUJE kľúčové slovo (napr. "meno")
+                if (lines[i].toLowerCase().includes(keyword.toLowerCase())) {
+                    // Prejdi nasledujúce riadky a hľadaj prvý, čo nie je prázdny a nie je kľúčové slovo
+                    for (let j = i + 1; j < lines.length; j++) {
+                        if (lines[j] !== "" && !lines[j].includes(":")) {
+                            return lines[j];
+                        }
+                    }
+                }
+            }
+            return "";
+        };
+
+        const meno = grabData("meno");
+        const lok = grabData("lokalita");
+        const kat = grabData("kategoria") || grabData("kategória");
+        const popis = grabData("popis");
+        const tel = grabData("telefon") || grabData("telefón");
+        const fb = grabData("facebook") || grabData("fb");
+        const tg = grabData("telegram") || grabData("tg");
+        const gal = grabData("galeria") || grabData("galéria");
+
+        // Vygenerovanie kódu s podmienkou pre tag (ak je prázdny, dá "Iné")
+        const finalTag = kat ? kat : "Iné";
+
+        const code = `
+        <div class="card">
+            <span class="tag">${finalTag}</span>
+            <span class="name">${meno || 'Meno'}</span>
+            <span class="loc">📍 ${lok || 'Lokalita'}</span>
+            <div class="cat">${popis || 'Činnosť'}</div>
+            <a href="tel:${tel.replace(/\s/g, '')}" class="btn-call">📞 Kontaktovať</a>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
+                ${fb ? `<a href="${fb}" target="_blank" style="color: #1877F2; text-decoration: none; font-weight: bold; font-size: 0.9em;">Facebook</a>` : ''}
+                ${tg ? `<a href="${tg}" target="_blank" style="color: #0088cc; text-decoration: none; font-weight: bold; font-size: 0.9em;">Telegram</a>` : ''}
+                ${gal ? `<a href="${gal}" target="_blank" style="color: #ea4335; text-decoration: none; font-weight: bold; font-size: 0.9em;">🖼️ Galéria</a>` : ''}
+            </div>
+        </div>`;
+        
+        document.getElementById('outputCode').innerText = code;
+    }
+</script>
+</body>
+</html>
