@@ -89,4 +89,55 @@
   "tg": "",
   "gal": ""
 }
+,
+{
+  "id": 8,
+  "kat": "obziva",
+  "meno": "Ján Vaľo",
+  "lok": "Zemplínska šírava",
+  "popis": "Prvoradé je zabezpečiť obživu... momentálne v menších množstvách víno, alkohol, na objednávku klobása a slanina.",
+  "tel": "0901726066",
+  "email": "jancurikovci@gmail.com",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+},
+{
+  "id": 9,
+  "kat": "ubytovanie",
+  "meno": "Ján Vaľo",
+  "lok": "Zemplínska šírava",
+  "popis": "Ubytovanie - Chata u Jančúra, Ubytovanie na lodi alebo výletná plavba plachetnicou - Jančúr Saillng. Workshop - Zlievanie vzácnych kovov.",
+  "tel": "0901726066",
+  "email": "jancurikovci@gmail.com",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 10,
+  "kat": "remesla",
+  "meno": "Ján Vaľo",
+  "lok": "Zemplínska šírava",
+  "popis": "Jančúr Saillng. Workshop - Zlievanie vzácnych kovov. Oprava Elektromotorov, Navijak & Navijačok, ručného náradia a všetkého čo a elektromotor. Všetky prevádzky nájdete na Google maps aj ich pozíciu. Elektroinštalačné práce kompletne - len pre členov Rodu.",
+  "tel": "+421901726066",
+  "email": "jancurikovci@gmail.com",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
+,
+{
+  "id": 11,
+  "kat": "volno",
+  "meno": "Ján Vaľo",
+  "lok": "Zemplínska šírava",
+  "popis": "Jančúr Saillng - Workshop -Zlievanie vzácnych kovov.",
+  "tel": "0901726066",
+  "email": "jancurikovci@gmail.com",
+  "fb": "",
+  "tg": "",
+  "gal": ""
+}
 ]
