@@ -139,6 +139,58 @@ select:focus, #searchInput:focus {
     gap: 10px;
     margin-bottom: 30px;
 }
+
+/* --- NOVÉ CSS PRE ELEGANTNÉ TLAČIDLÁ --- */
+
+/* Kontajner, ktorý ich drží v jednom rade */
+.card-actions-row {
+    display: flex;
+    gap: 8px; /* Medzera medzi nimi */
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Spoločný štýl pre všetky akčné tlačidlá (nízke a elegantné) */
+.btn-action {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;        /* Ešte o kúsok nižšie, aby to bolo fakt "nízke" */
+    border-radius: 18px;
+    border: none;
+    font-size: 0.85em;   /* Trošku menšie písmo, aby sa tam tie slová vedľa seba vošli */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: white;
+    gap: 5px;            /* Medzera medzi ikonkou a textom */
+    padding: 0 10px;     /* Vnútorná rezerva */
+}
+
+/* Jemný efekt pri prejdení myšou */
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    opacity: 0.9;
+}
+
+/* Konkrétne farby pre každé tlačidlo */
+.btn-phone {
+    background-color: #8bc34a; /* Jemná zelená pre volanie */
+}
+
+.btn-share {
+    background-color: #2ecc71; /* Výraznejšia zelená pre zdieľanie */
+}
+
+.btn-email {
+    background-color: #7f8c8d; /* Neutrálna sivá pre email */
+}
+
+
 /* --------------------------------------------------------- */
     </style>
 </head>
