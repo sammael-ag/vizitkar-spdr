@@ -1,6 +1,6 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "kat": "remesla",
     "meno": "Samuel Hudec - Sammael",
     "lok": "Košice",
@@ -28,9 +28,9 @@
 {
   "id": 3,
   "kat": "vsetko",
-  "meno": ".:Przemysław Marian: L.S. (c)",
+  "meno": ".:Przemysław Marian:. L.S. (c)",
   "lok": "[Zabrze pl/Polska/pl]",
-  "popis": "Dobrý deň, Pracujem v oblasti práva už 6 rokov. Ako právnik sa špecializujem na \n - zvykové, občianske, správne, bankové a obchodné právo. \n - Pomáham pri zabezpečení hnuteľného a nehnuteľného majetku, súkromných a osobných vecí. \n - Pri tvorbe súkromného práva v súlade so slobodnou vôľou a právom na vyhlásenie a zavádzaní do vlastného domova a životného priestoru. \nVykonávam činnosť na území tzv. Poľskej republiky a rodnej zeme Slovanských rodov. \nVšetkým zdravim.",
+  "popis": "Dobrý deň, Pracujem v oblasti práva už 6 rokov. Ako právnik sa špecializujem na zvykové, občianske, správne, bankové a obchodné právo. Pomáham pri zabezpečení hnuteľného a nehnuteľného majetku, súkromných a osobných vecí. Pri tvorbe súkromného práva v súlade so slobodnou vôľou a právom na vyhlásenie a zavádzaní do vlastného domova a životného priestoru. Vykonávam činnosť na území tzv. Poľskej republiky a rodnej zeme Slovanských rodov. \nVšetkým zdravim.",
   "tel": "+48 739493083",
   "email": "kancelaria.powiat.slask.zabrze@gmail.com",
   "fb": "https://www.facebook.com/pkotala",
@@ -54,9 +54,9 @@
 {
   "id": 5,
   "kat": "vsetko",
-  "meno": "Dušan Bradáč(BIO FARMA DEWIL)",
+  "meno": "Dušan Bradáč - BIO FARMA DEWIL",
   "lok": "Milinovice-okres Dunajská Streda",
-  "popis": "Zaoberám sa hospodárstvom. Nie je problémom poriešiť: \n - zámočnícke opravy a zváračské práce \n - servis záhradkárskej techniky ako kosačky,motorové píly,kultivátory,prívesné vozíky a príslušenstvo.",
+  "popis": "Zaoberám sa hospodárstvom. Nie je problémom poriešiť zámočnícke opravy a zváračské práce, alebo servis záhradkárskej techniky ako kosačky,motorové píly,kultivátory,prívesné vozíky a príslušenstvo.",
   "tel": "+421949236632",
   "email": "bradacdusan3@gmail.com",
   "fb": "",
