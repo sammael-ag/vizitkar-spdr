@@ -55,7 +55,7 @@
             kat: grab("kategoria").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             meno: grab("meno"),
             lok: grab("lokalita"),
-            popis: grab("popis"),
+            popis: grab("popis").replace(/\r?\n/g, "\\n").replace(/"/g, '\\"'),
             tel: grab("telefon"),
             email: grab("email") || grab("_replyto"), 
             fb: grab("facebook"),
