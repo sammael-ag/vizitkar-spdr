@@ -229,24 +229,36 @@ function applySearchAndFilter() {
 // Táto funkcia nasaje dáta z JSONu a postaví vizitky
 async function loadCards() {
     try {
-        const response = await fetch('data.json'); // "Odbehne" si pre súbor
-        const data = await response.json();        // Premení ho na zoznam
+        const response = await fetch('data.json');
+        const data = await response.json();
         const list = document.getElementById('list');
-        list.innerHTML = ''; // Vyčistí regál
+        list.innerHTML = '';
+
+        // Zistíme, či máme v adrese konkrétne ID (napr. ?id=2)
+        const urlParams = new URLSearchParams(window.location.search);
+        const shareId = urlParams.get('id');
 
         data.forEach(item => {
-            // Tu sa stavia vizitka (rovnako ako v tvojom Parséri)
             const card = document.createElement('div');
             card.className = 'card';
             card.setAttribute('data-category', item.kat);
             
+            // Pridáme vizitke unikátne ID aj do HTML, aby sme ju vedeli "chytiť"
+            card.id = "card-" + item.id;
+
             card.innerHTML = `
                 <span class="tag">${item.kat}</span>
                 <span class="name">${item.meno}</span>
                 <span class="loc">📍 ${item.lok}</span>
                 <div class="cat">${item.popis}</div>
-                <a href="tel:${item.tel.replace(/\s/g, '')}" class="btn-call">📞 Kontaktovať</a>
-                ${item.email ? `<a href="mailto:${item.email}" class="btn-call" style="background: #555; margin-top: 5px;">✉️ E-mail</a>` : ''}
+                
+                <div class="actions" style="display: flex; gap: 5px; flex-wrap: wrap;">
+                    <a href="tel:${item.tel.replace(/\s/g, '')}" class="btn-call" style="flex: 1;">📞 Volať</a>
+                    <button onclick="copyShareLink(${item.id})" class="btn-call" style="background: #28a745; flex: 1;">🔗 Zdieľať</button>
+                </div>
+
+                ${item.email ? `<a href="mailto:${item.email}" class="btn-call" style="background: #555; margin-top: 5px; width: 100%; display: block; text-align: center;">✉️ E-mail</a>` : ''}
+                
                 <div class="social-links">
                     ${item.fb ? `<a href="${item.fb}" target="_blank" style="color: #1877F2;">Facebook</a>` : ''}
                     ${item.tg ? `<a href="${item.tg}" target="_blank" style="color: #0088cc;">Telegram</a>` : ''}
@@ -256,8 +268,14 @@ async function loadCards() {
             list.appendChild(card);
         });
 
-        // Po načítaní hneď skúsime aplikovať filter, ak je niečo v hľadaní
-        applySearchAndFilter(); 
+        // AK MÁME SHARE ID: Počkáme sekundu a odfiltrujeme všetko ostatné
+        if (shareId) {
+            setTimeout(() => {
+                filterToSpecificId(shareId);
+            }, 100);
+        } else {
+            applySearchAndFilter(); 
+        }
 
     } catch (error) {
         console.error("Chyba pri nakladaní vizitiek:", error);
@@ -266,7 +284,32 @@ async function loadCards() {
 
 // Spustíme to hneď pri načítaní stránky
 window.onload = loadCards;
+// Funkcia, ktorá skopíruje link do schránky
+function copyShareLink(id) {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const shareUrl = baseUrl + "?id=" + id;
+    
+    navigator.clipboard.writeText(shareUrl).then(() => {
+        alert("Odkaz na túto vizitku bol skopírovaný! Môžeš ho poslať ďalej. ✨");
+    });
+}
 
+// Funkcia, ktorá ukáže len jednu konkrétnu vizitku
+function filterToSpecificId(id) {
+    let cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        if (card.id === "card-" + id) {
+            card.style.display = 'flex';
+            // Scrollneme na ňu, aby bola v strede
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Nastavíme select na "Všetko", aby to nemiatlo používateľa
+    document.getElementById('categorySelect').value = 'vsetko';
+}
 </script>
     
     <div id="list"></div>
