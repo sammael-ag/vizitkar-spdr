@@ -35,27 +35,31 @@
     function generateCode() {
         const rawText = document.getElementById('inputData').value;
         
+        // Funkcia na vyťahovanie bežných riadkov (meno, lokalita...)
         const grab = (key) => {
             const regex = new RegExp(key + "[:\\s]*([\\s\\S]*?)(?:\\n|$)", "i");
             const match = rawText.match(regex);
+            return (match && match[1]) ? match[1].trim() : "";
+        };
+
+        // Špeciálna funkcia pre POPIS - zoberie všetko od "popis:" až po koniec, vrátane prázdnych riadkov
+        const grabPopis = () => {
+            const regex = /popis[:\s]*([\s\S]*?)(?=\n(?:telefon|email|facebook|telegram|galeria|_replyto|$))/i;
+            const match = rawText.match(regex);
             if (match && match[1]) {
-                let result = match[1].trim();
-                if (result === "") {
-                    const deepRegex = new RegExp(key + "[\\s\\S]*?\\n\\s*([\\s\\S]*?)\\n", "i");
-                    const deepMatch = rawText.match(deepRegex);
-                    return deepMatch ? deepMatch[1].trim() : "";
-                }
-                return result;
+                let text = match[1].trim();
+                // Tu sa deje to kúzlo: zmeníme skutočné Entery na značky \n pre JSON
+                return text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
             }
             return "";
         };
 
         const entry = {
-            id: nextId, // Použijeme naše pamäťové ID
+            id: nextId,
             kat: grab("kategoria").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             meno: grab("meno"),
             lok: grab("lokalita"),
-            popis: grab("popis").replace(/\r?\n/g, "\\n").replace(/"/g, '\\"'),
+            popis: grabPopis(), // Použijeme našu novú "pílu" na popis
             tel: grab("telefon"),
             email: grab("email") || grab("_replyto"), 
             fb: grab("facebook"),
@@ -63,6 +67,7 @@
             gal: grab("galeria")
         };
 
+        // Vygenerujeme čistý JSON pripravený na vloženie do data.json
         const jsonString = ",\n" + JSON.stringify(entry, null, 2);
         document.getElementById('outputCode').innerText = jsonString;
 
@@ -70,12 +75,9 @@
         nextId++;
         localStorage.setItem('lastUsedId', nextId);
         
-        // Len pre tvoj prehľad, aby si videl, aké ID bude nasledovať
         console.log("Ďalšia vizitka bude mať ID:", nextId);
     }
 
-    // Pomôcka: Ak napíšeš do konzoly prehliadača (F12) setNextId(50), 
-    // parser začne číslovať od 50-tky.
     function setNextId(number) {
         nextId = number;
         localStorage.setItem('lastUsedId', nextId);
