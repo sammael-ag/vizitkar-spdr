@@ -266,18 +266,21 @@ select:focus, #searchInput:focus {
            style="width: 100%; padding: 12px; border-radius: 25px; border: 2px solid #ddd; font-size: 1em; outline: none; box-sizing: border-box;">
 </div>
 <script>
-// Pomocná funkcia: Aktivuje klikateľné odkazy v texte
 function aktivujOdkazy(text) {
     if (!text) return "";
     
-    // Ochrana: Najprv premeníme nebezpečné znaky na neškodné (prevencia XSS)
+    // 1. Ochrana: Premeníme nebezpečné znaky na neškodné
     let cistyText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     
-    // Spracujeme odkazy s http/https
-    const urlPattern = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    let upravenyText = cistyText.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #ff9800; text-decoration: underline;">$1</a>');
+    // 2. TENTO RIADOK JE KĽÚČOVÝ: Premeníme \n z JSONu na skutočné konce riadkov, 
+    // ktoré naše CSS (white-space: pre-line) už uvidí!
+    let textSFormatom = cistyText.replace(/\\n/g, "\n");
 
-    // Spracujeme odkazy začínajúce na www, ktoré ešte nemajú pred sebou http
+    // 3. Spracujeme odkazy s http/https
+    const urlPattern = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    let upravenyText = textSFormatom.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #ff9800; text-decoration: underline;">$1</a>');
+
+    // 4. Spracujeme odkazy začínajúce na www
     const wwwPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
     upravenyText = upravenyText.replace(wwwPattern, '$1<a href="http://$2" target="_blank" rel="noopener noreferrer" style="color: #ff9800; text-decoration: underline;">$2</a>');
 
