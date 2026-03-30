@@ -256,14 +256,30 @@ select:focus, #searchInput:focus {
            style="width: 100%; padding: 12px; border-radius: 25px; border: 2px solid #ddd; font-size: 1em; outline: none; box-sizing: border-box;">
 </div>
 <script>
+// Pomocná funkcia: Aktivuje klikateľné odkazy v texte
+function aktivujOdkazy(text) {
+    if (!text) return "";
+    
+    // Ochrana: Najprv premeníme nebezpečné znaky na neškodné (prevencia XSS)
+    let cistyText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    
+    // Spracujeme odkazy s http/https
+    const urlPattern = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    let upravenyText = cistyText.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #ff9800; text-decoration: underline;">$1</a>');
+
+    // Spracujeme odkazy začínajúce na www, ktoré ešte nemajú pred sebou http
+    const wwwPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    upravenyText = upravenyText.replace(wwwPattern, '$1<a href="http://$2" target="_blank" rel="noopener noreferrer" style="color: #ff9800; text-decoration: underline;">$2</a>');
+
+    return upravenyText;
+}
+
 let currentCategory = 'vsetko';
 
-// Pomocná funkcia: Odstráni dĺžne a mäkčene (hoblík na diakritiku)
 function removeAccents(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-// Spustí sa pri zmene v Select menu
 function filterByCategory() {
     const select = document.getElementById('categorySelect');
     if (select) {
@@ -272,43 +288,30 @@ function filterByCategory() {
     }
 }
 
-// Reaguje na písanie v hľadaní
 function searchLocation() {
     applySearchAndFilter();
 }
 
-// Hlavný vyhodnocovací proces
 function applySearchAndFilter() {
-    // 1. Vyčistíme hľadaný text (malé písmená + bez diakritiky)
     let rawSearch = document.getElementById('searchInput').value.toLowerCase();
     let searchInput = removeAccents(rawSearch);
-    
     let cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        // 2. Získame dáta z vizitky
         let cardCategory = card.getAttribute('data-category') || "ine";
         let locationText = card.querySelector('.loc').innerText.toLowerCase();
         let cleanLocation = removeAccents(locationText);
 
-        // 3. Logika kategórie
         let matchCategory = (currentCategory === 'vsetko' || cardCategory === currentCategory);
-
-        // 4. Logika hľadania (Lokalita) - reaguje už od 2 znakov pre lepší pocit
         let matchSearch = true;
         if (searchInput.length >= 2) {
             matchSearch = cleanLocation.includes(searchInput);
         }
 
-        // 5. Finálne zobrazenie
-        if (matchCategory && matchSearch) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        card.style.display = (matchCategory && matchSearch) ? 'flex' : 'none';
     });
 }
-// Táto funkcia nasaje dáta z JSONu a postaví vizitky
+
 async function loadCards() {
     try {
         const response = await fetch('data.json');
@@ -316,7 +319,6 @@ async function loadCards() {
         const list = document.getElementById('list');
         list.innerHTML = '';
 
-        // Zistíme, či máme v adrese konkrétne ID (napr. ?id=2)
         const urlParams = new URLSearchParams(window.location.search);
         const shareId = urlParams.get('id');
 
@@ -324,43 +326,34 @@ async function loadCards() {
             const card = document.createElement('div');
             card.className = 'card';
             card.setAttribute('data-category', item.kat);
-            
-            // Pridáme vizitke unikátne ID aj do HTML, aby sme ju vedeli "chytiť"
             card.id = "card-" + item.id;
+
+            // TU JE ZMENA: Voláme funkciu aktivujOdkazy pre item.popis
+            const spracovanyPopis = aktivujOdkazy(item.popis);
 
             card.innerHTML = `
                 <span class="tag">${item.kat}</span>
                 <span class="name">${item.meno}</span>
                 <span class="loc">📍 ${item.lok}</span>
-                <div class="cat">${item.popis}</div>
+                <div class="cat">${spracovanyPopis}</div>
                 
-<div class="card-actions-row">
-    <a href="tel:${item.tel.replace(/\s/g, '')}" class="btn-action btn-phone">
-        📞 Volať
-    </a>
-    <button onclick="copyShareLink(${item.id})" class="btn-action btn-share">
-        🔗 Zdieľať
-    </button>
-    ${item.email ? `
-    <a href="mailto:${item.email}" class="btn-action btn-email">
-        ✉️ Email
-    </a>` : ''}
-</div>
+                <div class="card-actions-row">
+                    <a href="tel:${item.tel.replace(/\s/g, '')}" class="btn-action btn-phone">📞 Volať</a>
+                    <button onclick="copyShareLink(${item.id})" class="btn-action btn-share">🔗 Zdieľať</button>
+                    ${item.email ? `<a href="mailto:${item.email}" class="btn-action btn-email">✉️ Email</a>` : ''}
+                </div>
                 
                 <div class="social-links">
-                    ${item.fb ? `<a href="${item.fb}" target="_blank" style="color: #1877F2;">Facebook</a>` : ''}
-                    ${item.tg ? `<a href="${item.tg}" target="_blank" style="color: #0088cc;">Telegram</a>` : ''}
-                    ${item.gal ? `<a href="${item.gal}" target="_blank" style="color: #ea4335;">🖼️ Galéria</a>` : ''}
+                    ${item.fb ? `<a href="${item.fb}" target="_blank" rel="noopener noreferrer" style="color: #1877F2;">Facebook</a>` : ''}
+                    ${item.tg ? `<a href="${item.tg}" target="_blank" rel="noopener noreferrer" style="color: #0088cc;">Telegram</a>` : ''}
+                    ${item.gal ? `<a href="${item.gal}" target="_blank" rel="noopener noreferrer" style="color: #ea4335;">🖼️ Galéria</a>` : ''}
                 </div>
             `;
             list.appendChild(card);
         });
 
-        // AK MÁME SHARE ID: Počkáme sekundu a odfiltrujeme všetko ostatné
         if (shareId) {
-            setTimeout(() => {
-                filterToSpecificId(shareId);
-            }, 100);
+            setTimeout(() => { filterToSpecificId(shareId); }, 100);
         } else {
             applySearchAndFilter(); 
         }
@@ -370,40 +363,33 @@ async function loadCards() {
     }
 }
 
-// Spustíme to hneď pri načítaní stránky
 window.onload = loadCards;
-// Funkcia, ktorá skopíruje link do schránky
+
 function copyShareLink(id) {
     const baseUrl = window.location.origin + window.location.pathname;
     const shareUrl = baseUrl + "?id=" + id;
-    
     navigator.clipboard.writeText(shareUrl).then(() => {
-        alert("Odkaz na túto vizitku bol skopírovaný! Môžeš ho poslať ďalej. ✨");
+        alert("Odkaz na túto vizitku bol skopírovaný! ✨");
     });
 }
 
-// Funkcia, ktorá ukáže len jednu konkrétnu vizitku
 function filterToSpecificId(id) {
     let cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         if (card.id === "card-" + id) {
             card.style.display = 'flex';
-            // Scrollneme na ňu, aby bola v strede
             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
             card.style.display = 'none';
         }
     });
-    
-    // Nastavíme select na "Všetko", aby to nemiatlo používateľa
     document.getElementById('categorySelect').value = 'vsetko';
 }
-// Keď používateľ scrolluje, zavoláme túto funkciu
+
 window.onscroll = function() { scrollFunction() };
 
 function scrollFunction() {
     const btn = document.getElementById("backToTop");
-    // Ukáže sa po 300px od vrchu
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
         btn.style.display = "block";
     } else {
@@ -411,12 +397,8 @@ function scrollFunction() {
     }
 }
 
-// Funkcia na plynulý návrat nahor
 function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth' // Toto zabezpečí ten "vznešený let" namiesto seknutia
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
     
