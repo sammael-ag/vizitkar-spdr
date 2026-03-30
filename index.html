@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Vizitkár ROD - Komunitná sieť">
+	<meta property="og:description" content="Prehľadný zoznam tvorcov, tovarov a služieb v rámci RODového jarmoku.">
+	<meta property="og:image" content="https://sammael-ag.github.io/vizitkar-spdr/nahlad.jpg">
+	<meta property="og:url" content="https://sammael-ag.github.io/vizitkar-spdr/">
+	<meta property="og:type" content="website">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:image" content="https://https://sammael-ag.github.io/vizitkar-spdr/nahlad.jpg">
     <title>Vizitkár SPDR</title>
     <style>
         :root { --primary: #8fb339; --bg: #fdfdfd; --text: #2c3e50; }
@@ -366,7 +374,7 @@ async function loadCards() {
 window.onload = loadCards;
 
 function copyShareLink(id) {
-    const baseUrl = window.location.origin + window.location.pathname;
+    const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
     const shareUrl = baseUrl + "?id=" + id;
     navigator.clipboard.writeText(shareUrl).then(() => {
         alert("Odkaz na túto vizitku bol skopírovaný! ✨");
